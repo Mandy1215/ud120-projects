@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 ===================================================
 Faces recognition example using eigenfaces and SVMs
@@ -13,7 +14,7 @@ The dataset used in this example is a preprocessed excerpt of the
   original source: http://scikit-learn.org/stable/auto_examples/applications/face_recognition.html
 
 """
-
+##pca  主成分分析
 
 
 print __doc__
@@ -30,6 +31,7 @@ from sklearn.metrics import classification_report
 from sklearn.metrics import confusion_matrix
 from sklearn.decomposition import RandomizedPCA
 from sklearn.svm import SVC
+
 
 # Display progress logs on stdout
 logging.basicConfig(level=logging.INFO, format='%(asctime)s %(message)s')
@@ -72,6 +74,7 @@ print "Extracting the top %d eigenfaces from %d faces" % (n_components, X_train.
 t0 = time()
 pca = RandomizedPCA(n_components=n_components, whiten=True).fit(X_train)
 print "done in %0.3fs" % (time() - t0)
+
 
 eigenfaces = pca.components_.reshape((n_components, h, w))
 

@@ -4,24 +4,28 @@ print
 print "checking for nltk"
 try:
     import nltk
+    print "import nltk success"
 except ImportError:
     print "you should install nltk before continuing"
 
 print "checking for numpy"
 try:
     import numpy
+    print "import numpy success"
 except ImportError:
     print "you should install numpy before continuing"
 
 print "checking for scipy"
 try:
     import scipy
+    print "import scipy success"
 except:
     print "you should install scipy before continuing"
 
 print "checking for sklearn"
 try:
     import sklearn
+    print "import sklearn success"
 except:
     print "you should install sklearn before continuing"
 
@@ -32,8 +36,9 @@ print "Enron dataset should be last item on the list, along with its current siz
 print "download will complete at about 423 MB"
 import urllib
 url = "https://www.cs.cmu.edu/~./enron/enron_mail_20150507.tar.gz"
-urllib.urlretrieve(url, filename="../enron_mail_20150507.tar.gz") 
+#urllib.urlretrieve(url, filename="../enron_mail_20150507.tar.gz")
 print "download complete!"
+
 
 
 print
@@ -41,7 +46,7 @@ print "unzipping Enron dataset (this may take a while)"
 import tarfile
 import os
 os.chdir("..")
-tfile = tarfile.open("enron_mail_20150507.tar.gz", "r:gz")
+tfile = tarfile.open("enron_mail_20150507.tar.gz", "r")
 tfile.extractall(".")
 
 print "you're ready to go!"

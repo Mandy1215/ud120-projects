@@ -31,31 +31,32 @@ def parseOutText(f):
         # print(text_string)
 
         ### project part 2: comment out the line below
-        ## words = text_string
+        # words = text_string
 
         ### split the text string into individual words, stem each word,
         ### and append the stemmed word to words (make sure there's a single
         ### space between each stemmed word)
-        #     stemmer = SnowballStemmer("english")
-        #     words_list = text_string.split()
-        #     words = []
-        #     #print words_list
-        #     for word in words_list:
-        #         stem_word = stemmer.stem(word)
-        #         words.append(stem_word)
-        # return ' '.join(words)
-        temp = text_string.strip().split(' ')
-        stemmer = SnowballStemmer('english')
-        dd = list()
-        for i in temp:
-            if i != '':
-                dd.append(stemmer.stem(i))
-        for i in dd:
-            words += ' '
-            words += i
-        words.strip()
-
-    return words
+        words = text_string.split()
+        from nltk.stem.snowball import SnowballStemmer
+        stemmer = SnowballStemmer("english")
+        answ = []
+        for w in words:
+            s = stemmer.stem(w)
+            if s:
+                answ.append(s.rstrip())
+    answ = ' '.join(answ)
+    return answ
+    #     temp = text_string.strip().split(' ')
+    #     stemmer = SnowballStemmer('english')
+    #     dd = list()
+    #     for i in temp:
+    #         if i != ' ':
+    #             dd.append(stemmer.stem(i))
+    #     for i in dd:
+    #         words += ''
+    #         words += i
+    #     words.strip()
+    # return words
 
 
 def main():

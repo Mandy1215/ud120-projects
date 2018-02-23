@@ -1,5 +1,5 @@
 #!/usr/bin/python
-
+# -*- coding: utf-8 -*-
 """ 
     This is the code to accompany the Lesson 2 (SVM) mini-project.
 
@@ -24,6 +24,21 @@ features_train, features_test, labels_train, labels_test = preprocess()
 
 #########################################################
 ### your code goes here ###
+from sklearn.svm import SVC
+clf = SVC(kernel='rbf', C=10000)
+features_train = features_train[:len(features_train)/100]
+labels_train = labels_train[:len(labels_train)/100]
+clf.fit(features_train, labels_train)
+pred = clf.predict(features_test)
+sco = clf.score(features_test,labels_test)
+print sco
+# print clf.predict(features_test[10])
+# print clf.predict(features_test[26])
+# print clf.predict(features_test[50])
+
+print "no. of Chris predicting emails:", sum(clf.predict(features_test))
+
+print "no. of Sara predicting emails:", len(clf.predict(features_test))-sum(clf.predict(features_test))
 
 #########################################################
 

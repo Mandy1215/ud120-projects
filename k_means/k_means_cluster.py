@@ -49,9 +49,9 @@ data_dict.pop("TOTAL", 0)  #删除离群值
 ### can be any key in the person-level dictionary (salary, director_fees, etc.) 
 feature_1 = "salary"
 feature_2 = "exercised_stock_options"
-feature_3 = "total_payments"
+#feature_3 = "total_payments"
 poi  = "poi"
-features_list = [poi, feature_1, feature_2 , feature_3 ]
+features_list = [poi, feature_1, feature_2 ]
 data = featureFormat(data_dict, features_list )
 poi, finance_features = targetFeatureSplit( data )
 
@@ -60,11 +60,12 @@ poi, finance_features = targetFeatureSplit( data )
 ### you'll want to change this line to 
 ### for f1, f2, _ in finance_features:
 ### (as it's currently written, the line below assumes 2 features)
-for f1, f2 ,f3 in finance_features:
-    plt.scatter( f1, f2 )
+#for f1, f2,f3 in finance_features:
+for f1, f2 in finance_features:
+    plt.scatter( f1, f2 )   #scatter在这里针对的应该是两个变量
 plt.show()
 
-##缩放
+##特征缩放
 from sklearn.preprocessing import MinMaxScaler
 def scaler(feature_train):
     MMS = MinMaxScaler()
@@ -77,8 +78,9 @@ def scaler(feature_train):
 ##聚类
 from sklearn.cluster import KMeans
 #pred = KMeans(n_clusters=2 ).fit_predict(finance_features)  #部署聚类：创建拟合器 然后fit 然后predict
-kmeans = KMeans(n_clusters=2 ).fit(scaler(finance_features))
+kmeans = KMeans(n_clusters=2).fit(scaler(finance_features))
 pred = kmeans.labels_
+#print (type(pred),pred)
 
 
 ### rename the "name" parameter when you change the number of features
@@ -89,20 +91,67 @@ except NameError:
     print "no predictions object named pred found, no clusters to plot"
 
 
-
+import numpy as np
 ##计算薪酬范围
-array1 = numpy.array(finance_features)
-m_f1 = max(array1[:,0])
-print("max salary:",m_f1)
-for f1,f2,f3 in array1:
-    if f1 > 0:
-        m_f1 = min(f1, m_f1)
-print("min salary:",m_f1)
+# array1 = numpy.array(finance_features)
+# m_f1 = max(array1[:,0])
+# print("max salary:",m_f1)
+# #for f1,f2,f3 in array1:
+# for f1,f2 in array1:
+#     if f1 > 0:
+#         m_f1 = min(f1, m_f1)
+# print("min salary:",m_f1)
+
+salarylist=[]
+for item in data_dict:
+    stock = data_dict[item]['salary']
+    if stock != 'NaN':
+        salarylist.append(stock)
+salarylist = np.array(salarylist)
+print "max:",np.max(salarylist)
+print "min:",np.min(salarylist)
+
+
+
+
+
 ##计算股权范围
-array2 = numpy.array(finance_features)
-m_f2 = max(array2[:,1])
-print("max exercised_stock_options:" , m_f2)
-for f1,f2, f3 in array2:
-    if f2>0:
-        m_f2 = min(f2, m_f2)
-print("min exercised_stock_options:" , m_f2)
+# array2 = numpy.array(finance_features)
+# m_f2 = max(array2[:,1])
+# print("max exercised_stock_options:" , m_f2)
+# #for f1,f2,f3 in array2:
+# for f1,f2 in array2:
+#     if f2>0:
+#         m_f2 = min(f2, m_f2)
+# print("min exercised_stock_options:" , m_f2)
+
+
+stocklist=[]
+for item in data_dict:
+    stock = data_dict[item]['exercised_stock_options']
+    if stock != 'NaN':
+        stocklist.append(stock)
+stocklist = np.array(stocklist)
+print "max:",np.max(stocklist)
+print "min:",np.min(stocklist)
+
+
+#计算重缩放特征
+#公式 x' = (x- min)/(max-min)
+#计算原值为 200,000 的“salary”特征在尺度变换后的值会是什么，
+# 以及原值为 100 万美元的“exercised_stock_options”特征在尺度变换后的值会是什么？
+print "计算重缩放特征"
+print "salary:",(200000-min(salarylist))*1.0/(max(salarylist)-min(salarylist))
+print "exercised_stock_options:", (1000000-min(stocklist))*1.0/(max(stocklist)-min(stocklist))
+
+
+
+
+# from sklearn.preprocessing import MinMaxScaler
+# import numpy
+# #这里numpy数组中的是特征，因为此处特征只有一个，所以看起来是这样的
+# #因为这里应该作为一个浮点数进行运算，所以数字后面要加.
+# # weights = numpy.array([[115.],[140.],[175.]])
+# # scaler = MinMaxScaler()
+# # rescaled_weight = scaler.fit_transform(weights)
+# # print rescaled_weight
