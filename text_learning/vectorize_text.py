@@ -73,7 +73,7 @@ for name, from_person in [("sara", from_sara), ("chris", from_chris)]:
 
 
 #print from_data
-print "emails processed"
+#print "emails processed"
 from_sara.close()
 from_chris.close()
 print word_data[152]
